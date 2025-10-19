@@ -3,6 +3,10 @@ import mysql.connector
 
 env = dotenv_values('.env') 
 
+'''
+These two variables should never be directly accessed.
+Use wrapper functions.
+'''
 conn = None
 cur = None
 
@@ -60,5 +64,5 @@ def test():
     print(random.choice(airports))
     close()
 
-test()
+# test()
 

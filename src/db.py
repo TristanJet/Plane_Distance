@@ -28,7 +28,7 @@ def close():
     if conn == None: raise UninitiatedError
     conn.close()
 
-def distinctCountryRange(min, max):
+def getCountriesInRange(min, max):
     global cur
     if cur == None: raise UninitiatedError
     query = ("SELECT DISTINCT iso_country FROM airport "
@@ -36,18 +36,29 @@ def distinctCountryRange(min, max):
     cur.execute(query, (min, max))
     return list(map(lambda x: x[0], cur.fetchall()))
 
-def test():
+''' Only municipality is NULLable, rest of values are guaranteed '''
+def getAirports(c, min, max):
     global cur
+    if cur == None: return
+    query = ("SELECT ap.name, c.name as country, ap.municipality, ap.latitude_deg, ap.longitude_deg "
+             "FROM airport as ap INNER JOIN country as c "
+             "WHERE ap.iso_country = %s AND "
+             "ap.iso_country = c.iso_country AND "
+             "ap.longitude_deg BETWEEN %s AND %s "
+             "ORDER BY ap.longitude_deg")
+    cur.execute(query, (c, min, max))
+    return cur.fetchall()
+
+def test():
+    import random
+    global cur
+    min = 0
+    max = 20
     connect()
-    countries = distinctCountryRange(-180, -170)
-    print(countries)
+    countries = getCountriesInRange(min, max)
+    airports = getAirports(random.choice(countries), min, max)
+    print(random.choice(airports))
     close()
 
 test()
 
-# def getLongRange(min, max):
-#     global cur
-#     if cur == None: return
-#     query = ""
-#     cur.execute(query, (min, max))
-#

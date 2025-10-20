@@ -4,8 +4,8 @@ import mysql.connector
 env = dotenv_values('.env') 
 
 '''
-These two variables should never be directly accessed.
-Use wrapper functions.
+ONLY through wrapper functions should these values be accessed
+NEVER directly write
 '''
 conn = None
 cur = None

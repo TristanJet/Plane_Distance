@@ -7,28 +7,35 @@ def main():
     intv = 20
     min = -180
     max = min + intv
+
     db.connect()
     airports = getAirportsLong(min, max)
     ap = [airportFromRow(random.choice(airports)), None]
     while max != 180:
         min += intv
         max += intv
+
         airports = getAirportsLong(min, max)
         ap[1] = airportFromRow(random.choice(airports))
         distance = int(haversine((ap[0]['lat'], ap[0]['long']), (ap[1]['lat'], ap[1]['long']), unit=Unit.KILOMETERS))
+
         print(
             f"What is the distance between:\n{ap[0]['name']} - {ap[0]['munic']}, {ap[0]['country']}\nand\n{ap[1]['name']} - {ap[1]['munic']}, {ap[1]['country']}"
         )
+
         in_dist = int(input(':'))
         print(f"You're guess was {in_dist}\nThe actual distance was: {distance} KM")
+
         diff = abs(distance - in_dist)
         print(f"You were off by: {diff} KM")
+
         if diff <= 500:
             score += 2
             print(f"You get two points!")
         elif diff <= 1000:
             score += 1
             print(f"You get one point!")
+
         ap[0] = ap[1]
         print("------------------")
     print(f"You're final score is {score}")

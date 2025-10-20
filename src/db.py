@@ -23,7 +23,7 @@ def connect():
         port=3306,
         user=env['SQL_USER'],
         password=env['SQL_PSWD'],
-        database="flight_game",
+        database=env['DATABASE'],
     )
     cur = conn.cursor()
 
@@ -65,4 +65,3 @@ def test():
     close()
 
 # test()
-

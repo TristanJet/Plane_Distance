@@ -43,7 +43,7 @@ def getCountriesInRange(min, max):
 ''' Only municipality is NULLable, rest of values are guaranteed '''
 def getAirports(c, min, max):
     global cur
-    if cur == None: return
+    if cur == None: raise UninitiatedError 
     query = ("SELECT ap.name, c.name as country, ap.municipality, ap.latitude_deg, ap.longitude_deg "
              "FROM airport as ap INNER JOIN country as c "
              "WHERE ap.iso_country = %s AND "

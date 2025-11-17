@@ -1,6 +1,8 @@
 import db
 import random
-from haversine import haversine, Unit
+from geopy import distance
+
+dist = distance.distance
 
 def main():
     score = 0
@@ -17,7 +19,7 @@ def main():
 
         airports = getAirportsLong(min, max)
         ap[1] = airportFromRow(random.choice(airports))
-        distance = int(haversine((ap[0]['lat'], ap[0]['long']), (ap[1]['lat'], ap[1]['long']), unit=Unit.KILOMETERS))
+        distance = int(dist((ap[0]['lat'], ap[0]['long']), (ap[1]['lat'], ap[1]['long'])).kilometers)
 
         print(
             f"What is the distance between:\n{ap[0]['name']} - {ap[0]['munic']}, {ap[0]['country']}\nand\n{ap[1]['name']} - {ap[1]['munic']}, {ap[1]['country']}"

@@ -1,9 +1,10 @@
 from flask import Flask, request, make_response
-import gamestate as game
+from gamestate import Game
 
 app = Flask(__name__)
 
 cookie_key = "sessionId"
+game = Game()
 
 @app.route("/")
 def root():

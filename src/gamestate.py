@@ -10,23 +10,27 @@ class Player:
     def addScore(self, score: int):
         self.scores.append(abs(score))
 
-'''Do not change these values directly, use/create wrapper functions'''
-nguess = 6
-fin = False
-players = {}
-lb = []
+class Game:
+    def __init__(self):
+        self.nguess = 6
+        self.fin = True
+        self.players = {}
+        self.lb = []
+
+    def newGame(self):
+        self.fin = False
+
+    def checkSesh(self, id: int) -> bool:
+        print(f"Checking: {id}")
+        return id in self.players.keys()
+
+    def createPlayer(self, n):
+        id = genId()
+        self.players[id] = Player(n, id)
+        return id
+
+    def handleGuess(self, g) -> tuple:
+        return (0, self.fin)
 
 def genId() -> int:
     return random.randint(10000, 99999)
-
-def checkSesh(id: int) -> bool:
-    print(f"Checking: {id}")
-    return id in players.keys()
-
-def createPlayer(n):
-    id = genId()
-    players[id] = Player(n, id)
-    return id
-
-def handleGuess(g) -> tuple:
-    return (0, False)

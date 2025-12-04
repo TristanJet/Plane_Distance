@@ -22,19 +22,6 @@ After *x* hops, player rankings are revealed
 ------------
 **Backend**
 
-- Create room //POST
-- Join game //GET - room in query string
-- On fill -> init game
-    - Random on iso_country first, then airport, to give variable country each time
-    - set airports + calc distances
-while game
-    - //POST distance guess
-        - calc score
-    - //GET game state
-        - players guessed
-        - time left
-- //GET final scores
-    - final player scores to display
 
 ------------
 **Frontend**

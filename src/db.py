@@ -32,7 +32,7 @@ def close():
     if conn == None: raise UninitiatedError
     conn.close()
 
-def getCountriesInRange(min, max):
+def getCountriesInRange(min, max) -> list:
     global cur
     if cur == None: raise UninitiatedError
     query = ("SELECT DISTINCT iso_country FROM airport "
@@ -40,7 +40,7 @@ def getCountriesInRange(min, max):
     cur.execute(query, (min, max))
     return list(map(lambda x: x[0], cur.fetchall()))
 
-''' Only municipality is NULLable, rest of values are guaranteed '''
+''' Only municipality can be NULL, rest of values are guaranteed '''
 def getAirports(c, min, max):
     global cur
     if cur == None: raise UninitiatedError 

@@ -12,7 +12,9 @@ class Player:
 
 class Game:
     def __init__(self):
-        self.nguess = 6
+        self.ndist = 6
+        self.dist = []
+        self.sumdist = 0
         self.fin = True
         self.players = {}
         self.lb = []

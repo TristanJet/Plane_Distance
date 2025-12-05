@@ -26,8 +26,9 @@ class Game:
         print(f"Checking: {id}")
         return id in self.players.keys()
 
-    def createPlayer(self, n):
+    def createPlayer(self, n) -> int:
         id = genId()
+        # SQL STUFF HERE
         self.players[id] = Player(n, id)
         return id
 

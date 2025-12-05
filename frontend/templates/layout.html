@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamGuesser</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <!-- <a href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='img/LOGO.png')}}" alt="TeamGuesser Logo" class="logo">
+            </a> -->
+            <a href="{{ url_for('index') }}" class="nav-title">
+                {% block nav_title %}TeamGuesser{% endblock %}
+            </a>
+        </div>
+    </nav>
+
+    {% block flash_messages %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="container" style="margin-top: 1rem;">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    {% endblock %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            {% block footer_content %}
+                <div class="footer-links">
+                    <a href="{{ url_for('leaderboard') }}">About</a>
+                    <a href="{{ url_for('rules') }}">How to Play</a>
+                </div>
+            {% endblock %}
+        </div>
+    </footer>
+</body>
+</html>

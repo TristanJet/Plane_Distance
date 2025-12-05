@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block nav_title %}TeamGuesser{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="image-stack">
+        <img src="{{ url_for('static', filename='img/teamguesser.png')}}" alt="TeamGuesser Logo" class="image-logo">
+    </div>
+    <h1>Welcome to TeamGuesser!</h1>
+    
+    <p class="subtitle">Challenge your aviation knowledge and guess distances between airports around the world</p>
+
+    <a href="{{ url_for('game') }}" class="btn btn-primary btn-play">
+        ▶ Play Now
+    </a>
+
+    <div class="features">
+        <div class="card feature-card">
+            <div class="feature-icon">✈️</div>
+            <div class="feature-title">Aviation Theme</div>
+            <div class="feature-desc"></div>
+        </div>
+
+        <div class="card feature-card">
+            <div class="feature-icon">🌍</div>
+            <div class="feature-title">Global Map</div>
+            <div class="feature-desc"></div>
+        </div>
+
+        <div class="card feature-card">
+            <div class="feature-icon">🎯</div>
+            <div class="feature-title">Test Skills</div>
+            <div class="feature-desc"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block title %}TeamGuesser - Play Game{% endblock %}
+
+{% block content %}
+<div class="game-container">
+    <!-- Map Section -->
+    <div class="map-section">
+        <div id="map" class="game-map">
+            <p>Map will render here with GeoJSON data</p>
+        </div>
+    </div>
+
+    <!-- Game Info Bar -->
+    <div class="game-info-bar">
+        <div class="info-item">
+            <span class="info-label">Round</span>
+            <span class="info-value" id="round"></span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">Score</span>
+            <span class="info-value" id="score"></span>
+        </div>
+    </div>
+
+    <!-- Question and Answer Section -->
+    <div class="question-section">
+        <div class="question-card card">
+            <h2 class="question-title">What is the distance between these two airports?</h2>
+            
+            <div class="airports-info">
+                <div class="airport">
+                    <div class="airport-icon">🛫</div>
+                    <div class="airport-name" id="airport1">Helsinki Airport (HEL)</div>
+                </div>
+                <div class="distance-arrow">➡️</div>
+                <div class="airport">
+                    <div class="airport-icon">🛬</div>
+                    <div class="airport-name" id="airport2">London Heathrow (LHR)</div>
+                </div>
+            </div>
+
+            <div class="answer-section">
+                <div class="input-group">
+                    <input 
+                        type="number" 
+                        id="distanceInput" 
+                        class="distance-input" 
+                        placeholder="Enter distance"
+                        min="0"
+                        step="1"
+                    >
+                    <span class="input-unit">km</span>
+                </div>
+                
+                <button class="btn btn-primary btn-submit" onclick="submitAnswer()">
+                    Submit Answer
+                </button>
+            </div>
+
+            <div class="hint-section">
+                <p class="hint-text">💡 Hint: </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

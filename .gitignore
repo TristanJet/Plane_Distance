@@ -1,4 +1,4 @@
 venv/
 .env
 query.txt
-src/__pycache__
+backend/src/__pycache__/

@@ -1,14 +1,23 @@
-from flask import Flask, request, make_response
+from flask import Flask, request, make_response, render_template
 from gamestate import Game
 
-app = Flask(__name__)
+frontend_dir = "../../frontend/"
+app = Flask(__name__, template_folder=frontend_dir + "templates/", static_folder=frontend_dir+ "static/")
 
 cookie_key = "sessionId"
 game = Game()
 
 @app.route("/")
-def root():
-    return "Hello, world"
+def index():
+    return render_template("index.html")
+
+@app.route("/rules")
+def rules():
+    return render_template("rules.html")
+
+@app.route("/leaderboard")
+def leaderboard():
+    return render_template("leaderboard.html")
 
 '''All API routes should return JSON'''
 

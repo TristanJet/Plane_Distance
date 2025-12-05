@@ -1,0 +1,226 @@
+{% extends "layout.html" %}
+
+{% block title %}TeamGuesser - How to Play{% endblock %}
+
+{% block content %}
+<div class="how-to-play-container">
+    <!-- Header -->
+    <div class="page-header">
+        <h1>✈️ How to Play TeamGuesser</h1>
+        <p class="page-subtitle">Learn the rules and start guessing distances between airports!</p>
+    </div>
+
+    <!-- Quick Start -->
+    <div class="quick-start card">
+        <h2>Quick Start</h2>
+        <p>TeamGuesser is a simple yet challenging game where you guess the distance between two airports. The closer your guess, the lower your score!</p>
+    </div>
+
+    <!-- Game Rules -->
+    <div class="rules-section">
+        <h2 class="section-title">Game Rules</h2>
+        
+        <div class="rules-grid">
+            <div class="rule-card card">
+                <div class="rule-number">1</div>
+                <div class="rule-content">
+                    <h3>View the Map</h3>
+                    <p>Two airports will be shown on the world map.</p>
+                </div>
+            </div>
+
+            <div class="rule-card card">
+                <div class="rule-number">2</div>
+                <div class="rule-content">
+                    <h3>Make Your Guess</h3>
+                    <p>Enter your guess for the distance between the airports in kilometers (km).</p>
+                </div>
+            </div>
+
+            <div class="rule-card card">
+                <div class="rule-number">3</div>
+                <div class="rule-content">
+                    <h3>Submit Answer</h3>
+                    <p>Click "Submit Answer" or press Enter to confirm your guess.</p>
+                </div>
+            </div>
+
+            <div class="rule-card card">
+                <div class="rule-number">4</div>
+                <div class="rule-content">
+                    <h3>Score Points</h3>
+                    <p>Earn points based on how close your guess is to the actual distance. Perfect guesses get minimum points</p>
+                </div>
+            </div>
+
+            
+
+            <div class="rule-card card">
+                <div class="rule-number">5</div>
+                <div class="rule-content">
+                    <h3>Complete Rounds</h3>
+                    <p></p>
+                </div>
+            </div>
+
+            <div class="rule-card card">
+                <div class="rule-number">6</div>
+                <div class="rule-content">
+                    <h3>Improve your score</h3>
+                    <p>3 Addition question</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Scoring System -->
+    <div class="scoring-section">
+        <h2 class="section-title">Scoring System</h2>
+        
+        <div class="scoring-card card">
+            <div class="scoring-explanation">
+                <p>Your score for each round is calculated based on the accuracy of your guess:</p>
+            </div>
+
+            <div class="scoring-table">
+                <div class="scoring-row">
+                    <div class="accuracy-range">
+                        <span class="range-icon"></span>
+                        <span class="range-text">Perfect (±0-50 km)</span>
+                    </div>
+                    <div class="points">
+                        <span class="points-value"></span>
+                        <span class="points-label">points</span>
+                    </div>
+                </div>
+
+                <div class="scoring-row">
+                    <div class="accuracy-range">
+                        <span class="range-icon"></span>
+                        <span class="range-text">Excellent (±51-200 km)</span>
+                    </div>
+                    <div class="points">
+                        <span class="points-value"></span>
+                        <span class="points-label">points</span>
+                    </div>
+                </div>
+
+                <div class="scoring-row">
+                    <div class="accuracy-range">
+                        <span class="range-icon"></span>
+                        <span class="range-text">Good (±201-500 km)</span>
+                    </div>
+                    <div class="points">
+                        <span class="points-value"></span>
+                        <span class="points-label">points</span>
+                    </div>
+                </div>
+
+                <div class="scoring-row">
+                    <div class="accuracy-range">
+                        <span class="range-icon"></span>
+                        <span class="range-text">Fair (±501-1000 km)</span>
+                    </div>
+                    <div class="points">
+                        <span class="points-value"></span>
+                        <span class="points-label">points</span>
+                    </div>
+                </div>
+
+                <div class="scoring-row">
+                    <div class="accuracy-range">
+                        <span class="range-icon"></span>
+                        <span class="range-text">Try Again (>1000 km)</span>
+                    </div>
+                    <div class="points">
+                        <span class="points-value"></span>
+                        <span class="points-label">points</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bonus-info">
+                <p><strong>💡 Tip:</strong> Maximum possible score is __ points (__ per round)</p>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <!-- Example Round -->
+    <div class="example-section">
+        <h2 class="section-title">Example Round</h2>
+        
+        <div class="example-card card">
+            <div class="example-scenario">
+                <h3>Scenario:</h3>
+                <p>You're shown Helsinki Airport (HEL) in Finland and London Heathrow (LHR) in the UK.</p>
+            </div>
+
+            <div class="example-steps">
+                <div class="example-step">
+                    <span class="step-number">1️⃣</span>
+                    <p>Look at the map</p>
+                </div>
+                <div class="example-step">
+                    <span class="step-number">2️⃣</span>
+                    <p>Estimate: What is the distance</p>
+                </div>
+                <div class="example-step">
+                    <span class="step-number">3️⃣</span>
+                    <p>Enter your guess: 1,800 km</p>
+                </div>
+                <div class="example-step">
+                    <span class="step-number">4️⃣</span>
+                    <p>Actual distance: 1,830 km - You were only 30 km off!</p>
+                </div>
+                <div class="example-step">
+                    <span class="step-number">5️⃣</span>
+                    <p>Score: __ points for a perfect guess! </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Buttons -->
+    <div class="cta-section">
+        <h2>Ready to Play?</h2>
+        <div class="cta-buttons">
+            <a href="{{ url_for('game') }}" class="btn btn-primary btn-large">
+                ▶ Start Playing
+            </a>
+            <a href="{{ url_for('leaderboard') }}" class="btn btn-secondary">
+                View Leaderboard
+            </a>
+        </div>
+    </div>
+
+    <!-- Tips & Tricks -->
+    <div class="tips-section">
+        <h2 class="section-title">💡 Tips & Tricks</h2>
+        
+        <div class="tips-grid">
+            <div class="tip-card card">
+                <div class="tip-icon">🗺️</div>
+                <h3>Study the Map</h3>
+                <p>Take a moment to observe the relative positions of the airports before guessing.</p>
+            </div>
+
+            <div class="tip-card card">
+                <div class="tip-icon">🎓</div>
+                <h3>Practice Makes Perfect</h3>
+                <p>The more you play, the better you'll get at estimating distances between different regions.</p>
+            </div>
+
+            <div class="tip-card card">
+                <div class="tip-icon">🏆</div>
+                <h3>Compete & Learn</h3>
+                <p>Check the leaderboard to see how you rank against other players worldwide!</p>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}

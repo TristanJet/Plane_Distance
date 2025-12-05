@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Map - Individual Country SVGs</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://d3js.org/topojson.v3.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+        }
+        
+        .container {
+            max-width: 1500px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .projection-info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .projection-info h2 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+        
+        .projection-info code {
+            background: #fff;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        svg {
+            display: block;
+            margin: 0 auto;
+            background: #e8f4f8;
+        }
+        
+        .country {
+            fill: #4a90e2;
+            stroke: #ffffff;
+            stroke-width: 0.5;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .country:hover {
+            fill: #ff6b6b;
+            stroke: #333;
+            stroke-width: 1;
+        }
+        
+        .tooltip {
+            position: absolute;
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            border-radius: 4px;
+            pointer-events: none;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .controls {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 5px;
+        }
+        
+        .controls label {
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        
+        .controls select {
+            padding: 5px 10px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+        
+        #country-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            min-height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗺️ Interactive World Map - Individual Country SVGs</h1>
+        
+        <div class="projection-info">
+            <h2>Map Projection Information</h2>
+            <p><strong>Current Projection:</strong> <code id="current-projection">Natural Earth</code></p>
+            <p><strong>D3.js Function:</strong> <code id="d3-function-name">d3.geoNaturalEarth1()</code></p>
+            <p>The Natural Earth projection is a pseudocylindrical projection designed by Tom Patterson. It provides a visually pleasing representation of the world with moderate distortion.</p>
+        </div>
+        
+        <div class="controls">
+            <label for="projection-select">Choose Projection:</label>
+            <select id="projection-select">
+                <option value="naturalEarth1" selected>Natural Earth (d3.geoNaturalEarth1)</option>
+                <option value="mercator">Mercator (d3.geoMercator)</option>
+                <option value="equirectangular">Equirectangular (d3.geoEquirectangular)</option>
+                <option value="orthographic">Orthographic (d3.geoOrthographic)</option>
+                <option value="stereographic">Stereographic (d3.geoStereographic)</option>
+                <option value="equalEarth">Equal Earth (d3.geoEqualEarth)</option>
+                <option value="robinson">Robinson (d3.geoRobinson)</option>
+            </select>
+        </div>
+        
+        <div id="map-container"></div>
+        
+        <div id="country-info">
+            <p style="color: #666;"><em>Hover over a country to see its name. Click to select it.</em></p>
+        </div>
+    </div>
+    
+    <div class="tooltip" id="tooltip"></div>
+    
+    <script>
+        const width = 1500;
+        const height = 1200;
+        
+        // Projection configuration
+        const projections = {
+            naturalEarth1: { 
+                func: d3.geoNaturalEarth1, 
+                name: "Natural Earth",
+                d3Name: "d3.geoNaturalEarth1()"
+            },
+            mercator: { 
+                func: d3.geoMercator, 
+                name: "Mercator",
+                d3Name: "d3.geoMercator()"
+            },
+            equirectangular: { 
+                func: d3.geoEquirectangular, 
+                name: "Equirectangular",
+                d3Name: "d3.geoEquirectangular()"
+            },
+            orthographic: { 
+                func: d3.geoOrthographic, 
+                name: "Orthographic",
+                d3Name: "d3.geoOrthographic()"
+            },
+            stereographic: { 
+                func: d3.geoStereographic, 
+                name: "Stereographic",
+                d3Name: "d3.geoStereographic()"
+            },
+            equalEarth: { 
+                func: d3.geoEqualEarth, 
+                name: "Equal Earth",
+                d3Name: "d3.geoEqualEarth()"
+            },
+            robinson: { 
+                func: d3.geoRobinson, 
+                name: "Robinson",
+                d3Name: "d3.geoRobinson()"
+            }
+        };
+        
+        let currentProjection = 'naturalEarth1';
+        let svg, path, countries;
+        
+        function updateProjectionInfo(projectionKey) {
+            const info = projections[projectionKey];
+            document.getElementById('current-projection').textContent = info.name;
+            document.getElementById('d3-function-name').textContent = info.d3Name;
+        }
+        
+        function createMap(projectionKey) {
+            // Clear existing map
+            d3.select('#map-container').selectAll('*').remove();
+            
+            // Create SVG
+            svg = d3.select('#map-container')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+            
+            // Setup projection
+            const projectionInfo = projections[projectionKey];
+            const projection = projectionInfo.func()
+                .scale(projectionKey === 'orthographic' ? 250 : 200)
+                .translate([width / 2, height / 2]);
+            
+            // Path generator
+            path = d3.geoPath().projection(projection);
+            
+            // Tooltip
+            const tooltip = d3.select('#tooltip');
+            
+            // Load and render world data
+            d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
+                .then(data => {
+                    // Convert TopoJSON to GeoJSON
+                    const countriesData = topojson.feature(data, data.objects.countries);
+                    
+                    // Create a group for each country (individual SVG element)
+                    countries = svg.selectAll('.country')
+                        .data(countriesData.features)
+                        .enter()
+                        .append('path')
+                        .attr('class', 'country')
+                        .attr('d', path)
+                        .attr('data-country-id', d => d.id)
+                        .attr('data-country-name', d => d.properties.name)
+                        .on('mouseover', function(event, d) {
+                            tooltip
+                                .style('opacity', 1)
+                                .html(`<strong>${d.properties.name}</strong><br>ID: ${d.id}`)
+                                .style('left', (event.pageX + 10) + 'px')
+                                .style('top', (event.pageY - 10) + 'px');
+                        })
+                        .on('mousemove', function(event) {
+                            tooltip
+                                .style('left', (event.pageX + 10) + 'px')
+                                .style('top', (event.pageY - 10) + 'px');
+                        })
+                        .on('mouseout', function() {
+                            tooltip.style('opacity', 0);
+                        })
+                        .on('click', function(event, d) {
+                            // Highlight selected country
+                            svg.selectAll('.country').style('fill', '#4a90e2');
+                            d3.select(this).style('fill', '#ff6b6b');
+                            
+                            // Show country information
+                            const countryInfo = document.getElementById('country-info');
+                            countryInfo.innerHTML = `
+                                <h3>Selected Country: ${d.properties.name}</h3>
+                                <p><strong>Country ID:</strong> ${d.id}</p>
+                                <p><strong>SVG Path Data Length:</strong> ${this.getAttribute('d').length} characters</p>
+                                <p><strong>Projection:</strong> ${projections[currentProjection].name}</p>
+                                <p><em>Each country is rendered as an individual &lt;path&gt; SVG element</em></p>
+                            `;
+                        });
+                    
+                    console.log(`Rendered ${countriesData.features.length} individual country SVG paths`);
+                    console.log(`Using projection: ${projections[projectionKey].d3Name}`);
+                });
+        }
+        
+        // Initialize map
+        createMap(currentProjection);
+        
+        // Projection selector
+        document.getElementById('projection-select').addEventListener('change', function(e) {
+            currentProjection = e.target.value;
+            updateProjectionInfo(currentProjection);
+            createMap(currentProjection);
+        });
+        
+        // Log SVG structure information
+        console.log('=== World Map SVG Structure ===');
+        console.log('Each country is rendered as an individual <path> element');
+        console.log('Countries can be accessed via: document.querySelectorAll(".country")');
+        console.log('Default projection: Natural Earth (d3.geoNaturalEarth1)');
+    </script>
+</body>
+</html>
